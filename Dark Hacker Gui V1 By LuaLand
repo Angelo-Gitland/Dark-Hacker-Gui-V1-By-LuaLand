@@ -173,6 +173,7 @@ local function showPage(name)
             {"Carnage", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Carnage"},
             {"Chips", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Chips"},
             {"Chat Spam", "https://pastebin.com/raw/8Htx56Ab"},
+            {"Wally West", "https://raw.githubusercontent.com/XQZ-official/XQZscripts/refs/heads/main/WallyWest.txt'},
         }
         for _, s in ipairs(scripts) do
             addContentButton(s[1], function()
