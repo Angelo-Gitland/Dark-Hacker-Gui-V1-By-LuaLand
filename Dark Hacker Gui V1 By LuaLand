@@ -344,15 +344,8 @@ local function showPage(name)
 
     elseif name == "Podcast" then
         local lines = {
-            "Dear User, We tried to Obfuscate our script.",
-            "Since skids are copying this content.",
-            "Anti-Skid Protection Activated.",
-            "#LuaLandSafety",
-            "#LuaLandGuidelines",
-            "#LuaLandPodcast",
-            "#LuaLandPolicy's",
-            "#LuaLandAnti-SkidProtect",
-            "#Anti-Infect",
+            "We Are Anonymous. We Are Legion We Do Not Forgive. We Do Not Forget. Expect Us"
+            "Every click you make, i see. every move you take, I trace"
         }
         for _, line in ipairs(lines) do
             addLabel(line)
