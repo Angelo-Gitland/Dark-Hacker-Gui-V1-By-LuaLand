@@ -165,7 +165,7 @@ local function showPage(name)
             {"Carnage", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Carnage"},
             {"Chips", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Chips"},
             {"Chat Spam", "https://pastebin.com/raw/8Htx56Ab"},
-            {"Wally West", "https://raw.githubusercontent.com/XQZ-official/XQZscripts/refs/heads/main/WallyWest.txt'},
+            {"Wally West", "https://raw.githubusercontent.com/XQZ-official/XQZscripts/refs/heads/main/WallyWest.txt"},
             {"Keyboard", "https://rawscripts.net/raw/Universal-Script-Mobile-keyboard-6975"},
         }
         for _, s in ipairs(scripts) do
