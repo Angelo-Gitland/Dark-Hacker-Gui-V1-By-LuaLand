@@ -1,4 +1,4 @@
--- Dark Hacker GUI V1 | By Lua Land (Fixed & Improved)
+- Properties
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Name = "DarkHackerGui"
@@ -14,7 +14,6 @@ main.Active = true
 main.Draggable = true
 main.Parent = gui
 
--- Title Bar
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 40)
 title.Text = "Dark Hacker Gui V1 | By Lua Land"
@@ -24,14 +23,12 @@ title.Font = Enum.Font.Code
 title.TextSize = 20
 title.Parent = main
 
--- Sidebar
 local sidebar = Instance.new("Frame")
 sidebar.Size = UDim2.new(0, 150, 1, -40)
 sidebar.Position = UDim2.new(0, 0, 0, 40)
 sidebar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 sidebar.Parent = main
 
--- Content Area (Scrolling)
 local content = Instance.new("ScrollingFrame")
 content.Size = UDim2.new(1, -150, 1, -40)
 content.Position = UDim2.new(0, 150, 0, 40)
@@ -49,7 +46,6 @@ layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
 end)
 
--- Notification Function
 local function notify(text)
     pcall(function()
         game.StarterGui:SetCore("SendNotification", {
@@ -60,7 +56,6 @@ local function notify(text)
     end)
 end
 
--- Copy to Clipboard
 local function copy(text)
     if setclipboard then
         setclipboard(text)
@@ -70,7 +65,6 @@ local function copy(text)
     end
 end
 
--- Add Button to Content
 local function addContentButton(name, callback)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, -10, 0, 30)
@@ -83,7 +77,6 @@ local function addContentButton(name, callback)
     btn.MouseButton1Click:Connect(callback)
 end
 
--- Add Label to Content
 local function addLabel(text)
     local lbl = Instance.new("TextLabel")
     lbl.Size = UDim2.new(1, -10, 0, 30)
@@ -95,7 +88,6 @@ local function addLabel(text)
     lbl.Parent = content
 end
 
--- Show Page Function
 local function showPage(name)
     content:ClearAllChildren()
     layout.Parent = nil
@@ -368,7 +360,6 @@ local function showPage(name)
     end
 end
 
--- Create Sidebar Buttons
 local pages = {"Home", "Scripts", "Admin Scripts", "Require Scripts", "Skybox", "Decals", "Podcast"}
 for i, pageName in ipairs(pages) do
     local btn = Instance.new("TextButton")
@@ -385,5 +376,4 @@ for i, pageName in ipairs(pages) do
     end)
 end
 
--- Show Home on Start
 showPage("Home")
