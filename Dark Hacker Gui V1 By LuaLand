@@ -1,0 +1,401 @@
+-- Dark Hacker GUI V1 | By Lua Land (Fixed & Improved)
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "DarkHackerGui"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local main = Instance.new("Frame")
+main.Name = "MainFrame"
+main.Size = UDim2.new(0, 600, 0, 400)
+main.Position = UDim2.new(0.5, -300, 0.5, -200)
+main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+main.Active = true
+main.Draggable = true
+main.Parent = gui
+
+-- Title Bar
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Text = "Dark Hacker Gui V1 | By Lua Land"
+title.TextColor3 = Color3.fromRGB(0, 255, 0)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.Code
+title.TextSize = 20
+title.Parent = main
+
+-- Close Button
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
+closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+closeBtn.Font = Enum.Font.Code
+closeBtn.TextSize = 18
+closeBtn.Parent = main
+closeBtn.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- Sidebar
+local sidebar = Instance.new("Frame")
+sidebar.Size = UDim2.new(0, 150, 1, -40)
+sidebar.Position = UDim2.new(0, 0, 0, 40)
+sidebar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+sidebar.Parent = main
+
+-- Content Area (Scrolling)
+local content = Instance.new("ScrollingFrame")
+content.Size = UDim2.new(1, -150, 1, -40)
+content.Position = UDim2.new(0, 150, 0, 40)
+content.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+content.ScrollBarThickness = 6
+content.CanvasSize = UDim2.new(0, 0, 0, 0)
+content.AutomaticCanvasSize = Enum.AutomaticSize.Y
+content.Parent = main
+
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 5)
+layout.Parent = content
+
+layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
+end)
+
+-- Notification Function
+local function notify(text)
+    pcall(function()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Lua Land",
+            Text = text,
+            Duration = 3
+        })
+    end)
+end
+
+-- Copy to Clipboard
+local function copy(text)
+    if setclipboard then
+        setclipboard(text)
+        notify("Copied To Clipboard!")
+    else
+        notify("Clipboard not supported!")
+    end
+end
+
+-- Add Button to Content
+local function addContentButton(name, callback)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, -10, 0, 30)
+    btn.Text = name
+    btn.TextColor3 = Color3.fromRGB(0, 255, 0)
+    btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    btn.Font = Enum.Font.Code
+    btn.TextSize = 16
+    btn.Parent = content
+    btn.MouseButton1Click:Connect(callback)
+end
+
+-- Add Label to Content
+local function addLabel(text)
+    local lbl = Instance.new("TextLabel")
+    lbl.Size = UDim2.new(1, -10, 0, 30)
+    lbl.Text = text
+    lbl.TextColor3 = Color3.fromRGB(0, 255, 0)
+    lbl.BackgroundTransparency = 1
+    lbl.Font = Enum.Font.Code
+    lbl.TextSize = 16
+    lbl.Parent = content
+end
+
+-- Show Page Function
+local function showPage(name)
+    content:ClearAllChildren()
+    layout.Parent = nil
+    layout = Instance.new("UIListLayout")
+    layout.Padding = UDim.new(0, 5)
+    layout.Parent = content
+
+    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
+    end)
+
+    if name == "Home" then
+        addLabel("NAME: " .. player.Name)
+        addLabel("ACCOUNT AGE: " .. player.AccountAge .. " days")
+        addLabel("FPS: " .. math.floor(1 / wait()) .. " (Approx)")
+        addLabel("PLAYERS: " .. #game.Players:GetPlayers())
+        addContentButton("Join Lua Land Hub", function()
+            copy("https://discord.gg/mQYtHAJErm")
+        end)
+        addContentButton("Join Eric_3337", function()
+            copy("https://discord.gg/tkrKd7UBJG")
+        end)
+
+    elseif name == "Scripts" then
+        local scripts = {
+            {"Blackhole", "https://raw.githubusercontent.com/Bac0nHck/Scripts/main/BringFlingPlayers"},
+            {"Super Ring Parts V1", "https://rawscripts.net/raw/Natural-Disaster-Survival-Super-Ring-Parts-v1-By-IKASI-27341"},
+            {"Super Ring Parts V2", "https://pastefy.app/t0djamGi/raw"},
+            {"Super Ring Parts V3", "https://pastebin.com/raw/JmAw1ucM"},
+            {"Super Ring Parts V4", "https://rawscripts.net/raw/Natural-Disaster-Survival-Super-Rings-Parts-V4-By-Lukas-24409"},
+            {"Super Ring Parts V5", "https://raw.githubusercontent.com/Lukashub-coder/Super-ring-V5/refs/heads/main/By%20lukas!!"},
+            {"Super Ring Parts V6", "https://raw.githubusercontent.com/chesslovers69/Super-ring-parts-v6/refs/heads/main/Bylukaslol"},
+            {"c00lgui By Team c00lkidd", "https://raw.githubusercontent.com/C00lHamoot/c00lgui-1/36410b4f949d3a10e8b39fc7cdcc8cfb67aefe25/c00l%20gui"},
+            {"Potato Gui", "https://rawscripts.net/raw/Client-Replication-Potato-GUI-Lua-Version-29947"},
+            {"Harked Gui", "https://rawscripts.net/raw/Universal-Script-Harked-Skript-6804"},
+            {"All Seeing Hand", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand"},
+            {"Mr Bye Bye", "https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Mr.Bye%20Bye.lua"},
+            {"Primadon", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Primadon"},
+            {"Chrono Sentinel", "https://raw.githubusercontent.com/Lock1213/Scripts/refs/heads/main/Chrono%20Sentinel%20(Converted%20With%20Music)"},
+            {"Pharaoh", "https://pastebin.com/raw/ZPYtCwR0"},
+            {"Billboard Gui", "https://pastebin.com/raw/7FeCFurr"},
+            {"Trail", "https://raw.githubusercontent.com/Angelo-Gitland/Universal-Trail-Lua-Land/refs/heads/main/Universal%20Trail%20Lua%20land"},
+            {"Survive Forsaken Killers", "https://pastebin.com/raw/ud8GUnvj"},
+            {"Draw [BY LLH Lua Land]", "https://gist.githubusercontent.com/Angelo-Gitland/41392308e475849d10ddaed89de6cf82/raw/26307cee931f95d3477501399915aec2dc3dc6e7/Drawing%2520LandsUHJQ"},
+            {"Raining Taco", "https://gist.githubusercontent.com/Angelo-Gitland/32f75327c2a514eabf8bd3eb6d519f35/raw/c4a26f1acd089e316acb946ff7adf77888ab7104/It's%2520Raining%2520Taco!"},
+            {"Hint Gui", "https://pastebin.com/raw/vmH6fz3e"},
+            {"Omni God", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Omni%20God"},
+            {"Sutart", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Sutart"},
+            {"Caducus", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/CADUCUS%20(FIXED)"},
+            {"Big Daddy", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Big%20Daddy"},
+            {"Spectrum Glitcher", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Spectrum%20Glitcher"},
+            {"Gun", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/M41451"},
+            {"Sus", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/secks"},
+            {"Majora's Mask", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Mask"},
+            {"Rainbow King", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Rainbow%20Banisher"},
+            {"Distorted", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/The%20Distorted"},
+            {"Shedletsky", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Shedletsky%20Rage"},
+            {"Incension", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Incension%20Reborn"},
+            {"The Assasian", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/The%20Assasian"},
+            {"Ender", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Ender"},
+            {"Ruin Ex", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/RUIN%20EX"},
+            {"Ruin Ix", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/RUIN%20IX"},
+            {"Studio Dummy", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Studio%20Dummy"},
+            {"Void Boss", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/come%20back"},
+            {"The Boys", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Boys"},
+            {"Pandora", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/pandora"},
+            {"Noob Switcher V5", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Noob%20Switcher%20V5"},
+            {"Steve", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Steve"},
+            {"Devoyance", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Devoyance"},
+            {"Mystic Annihilation", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Mystic"},
+            {"Burning Hope", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Burning%20Hope"},
+            {"Calmed Murderer", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Calmed"},
+            {"Kenshiro", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Kenshiro"},
+            {"The Angel", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/The%20Angel"},
+            {"Carnage", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Carnage"},
+            {"Chips", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Chips"},
+            {"Chat Spam", "https://pastebin.com/raw/8Htx56Ab"},
+        }
+        for _, s in ipairs(scripts) do
+            addContentButton(s[1], function()
+                pcall(function()
+                    loadstring(game:HttpGet(s[2]))()
+                end)
+            end)
+        end
+
+    elseif name == "Admin Scripts" then
+        local scripts = {
+            {"Infinite Yield", "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"},
+            {"Kohls Admin", "https://raw.githubusercontent.com/Stefanuk12/ROBLOX/master/Games/Kohls%20Admin%20House/DarkKohls/GUI.lua"},
+            {"Quirky Cmds [Some Games]", "https://rawscripts.net/raw/Universal-Script-QuirkyCMD-FE-admin-8667"},
+            {"Legs Admin", "https://raw.githubusercontent.com/leg1337/legadmv2/main/legadminv2.lua"},
+            {"Brick Admin", "https://raw.githubusercontent.com/MariyaFurmanova/Library/main/un_AdminGUI"},
+            {"Fates Admin", "https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua"},
+            {"Console Line Admin", "https://raw.githubusercontent.com/NotAtomz/Atom-Scripts/refs/heads/main/ConsoleLine"},
+            {"Cmd-X Admin", "https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source"},
+            {"Nameless Admin", "https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"},
+            {"Reviz Admin", "https://pastebin.com/raw/ibFPdiF7"},
+            {"Ak Admin", "https://angelical.me/ak.lua"},
+            {"Old Cmd Bar", "https://raw.githubusercontent.com/Unkn0wnKnown/Old-CMD-Bar-ReMake/refs/heads/main/CMD%20Bar%20ReMake"},
+            {"Loaf's Admin", "https://pastebin.com/raw/7n8JLrkK"},
+            {"Proton Admin", "https://api.luarmor.net/files/v3/loaders/5e6e6cc1bb32fd926764d064e2c60a3b.lua"},
+            {"Comet Admin", "https://raw.githubusercontent.com/FilteringEnabled/FE/main/Comet"},
+            {"Fedora Admin", "https://raw.githubusercontent.com/alexx1212/fedoratoomutch/main/toomucth"},
+            {"iOrb Thingy Admin", "https://rawscripts.net/raw/Universal-Script-IOrb-thingy-42143"},
+            {"Improves Admin", "https://raw.githubusercontent.com/proximitise/keysystems/refs/heads/main/adminkeysys.lua"},
+            {"Deem Admin [BETA]", "https://raw.githubusercontent.com/neatdevs/Deem-Admin/refs/heads/main/admin.lua"},
+            {"Catalog Heaven Admin", "https://pastebin.com/ftdLpbCg"},
+            {"Op Admin [Private]", "https://raw.githubusercontent.com/addihallstar/opadminsupreme/refs/heads/main/opadmin_new.lua"},
+            {"lxte Admin", "https://raw.githubusercontent.com/lxte/cmd/main/testing-main.lua"},
+            {"VoidBound Admin", "https://pastebin.com/raw/XfVWcYEs"},
+        }
+        for _, s in ipairs(scripts) do
+            addContentButton(s[1], function()
+                if s[1] == "Quirky Cmds [Some Games]" then
+                    notify("This Script Only Works In Some Games!")
+                end
+                pcall(function()
+                    loadstring(game:HttpGet(s[2]))()
+                end)
+            end)
+        end
+
+    elseif name == "Require Scripts" then
+        local requires = {
+            {"📌 R6 📌", 'require(3436957371):r6("'..player.Name..'")'},
+            {"Th Gui", 'require(135807038977807)("'..player.Name..'")'},
+            {"RedLights Exe", 'require(6097532439):redlightsdontleak("'..player.Name..'")'},
+            {"Spring Hub", 'require(4829576129).SpringHub("'..player.Name..'")'},
+            {"a521gs0m2c74i8hvpt12 Gui", 'require(127039250412871).idkad("'..player.Name..'")'},
+            {"Fare's Hub", 'require(5344766102).fare("'..player.Name..'")'},
+            {"GodSpawn Gui", 'require(5146396793).load("'..player.Name..'")'},
+            {"Impostor Chat [R6]", 'require(5903403087).load("'..player.Name..'")'},
+            {"Random Map [R6]", 'require(1192815372).load("'..player.Name..'")'},
+            {"Garou [R6]", 'require(14499140823)("'..player.Name..'","garou2")'},
+            {"Parasite [R6]", 'require(17234454946).load("'..player.Name..'")'},
+            {"Excavator [R6]", 'require(17181083619)("'..player.Name..'")'},
+            {"Building Tools", 'require(7518778955).ConstraintTools("'..player.Name..'")'},
+            {"Mustard Gas", 'require(2989312214).load("'..player.Name..'")'},
+            {"Call Gui", 'require(13362886965):kawaii("'..player.Name..'")'},
+            {"Undetected Hub", 'require(5001982403).undetected("'..player.Name..'")'},
+            {"Furry [R6]", 'require(6806052169).Furry("'..player.Name..'")'},
+            {"Flying Spaceship [R6]", 'require(4922372692).load("'..player.Name..'")'},
+            {"Super Bro [R6]", 'require(86206606847204).SoRetro("'..player.Name..'")'},
+            {"Veltex [R6]", 'require(6099316092).load("'..player.Name..'")'},
+            {"Asylum [R6]", 'require(4992512410):Asylumgotskidded("'..player.Name..'")'},
+            {"Time Reverse [R6]", 'require(6525681614).reverser("'..player.Name..'")'},
+            {"Timestop [R6]", 'require(6285853184).TimeStopper("'..player.Name..'","rbc")'},
+            {"The Mask [R6]", 'require(6375542687).load("'..player.Name..'")'},
+            {"Killer Queen [R6]", 'require(7576601333).load("'..player.Name..'")'},
+            {"Caducus [R6]", 'require(5686002742):Fire("'..player.Name..'","caducus")'},
+            {"Black Figure [R6]", 'require(7972003282).CLoad("'..player.Name..'")'},
+            {"UltraSkidded Lord [R6]", 'require(6534274227)("'..player.Name..'")'},
+            {"Kill Machine [R6]", 'require(6375409514).load("'..player.Name..'")'},
+            {"Gentleman Killbot [R6]", 'require(5430831931).Dark("'..player.Name..'")'},
+            {"Goner [R6]", 'require(4513235536).G("'..player.Name..'")'},
+            {"SCP 049 [R6]", 'require(5694493154).load("'..player.Name..'")'},
+            {"SCP 096 [R6]", 'require(5972874843).load("'..player.Name..'")'},
+            {"Stan [R6]", 'require(5270525643).Dark("'..player.Name..'")'},
+            {"Ghost [R6]", 'require(6375701095).load("'..player.Name..'")'},
+            {"Lost Soul [R6]", 'require(5390158029).Dark("'..player.Name..'")'},
+            {"Server Admin [R6]", 'require(4665394711).load("'..player.Name..'")'},
+            {"All Seeing Hand [R6]", 'require(5375399205).Player("'..player.Name..'")'},
+            {"Revengers Claws V2 [R6]", 'require(6099373575).load("'..player.Name..'")'},
+            {"Fraud [R6]", 'require(6080098119).Fraud("'..player.Name..'")'},
+            {"Nightmare [R6]", 'require(4943481014).Nightmare("'..player.Name..'")'},
+            {"Godspeed [R6]", 'require(3957090799).load("'..player.Name..'")'},
+            {"Voodoo Child [R6]", 'require(6191659992).load("'..player.Name..'")'},
+            {"Voodoo Child V2 [R6]", 'require(6191675567).load("'..player.Name..'")'},
+            {"Vnd Neko [R6]", 'require(5475123749).VNDneko("'..player.Name..'")'},
+            {"Goku [R6]", 'require(7433042949)("'..player.Name..'")'},
+            {"Gr33nb00is Gui", 'require(89564453362734).ssst("'..player.Name..'")'},
+            {"Trollimbuis Gui", 'require(4555115496).gw("'..player.Name..'")'},
+            {"The End Nuke [R6]", 'require(4658687827).nukes("'..player.Name..'")'},
+            {"Viankos [R6]", 'require(6123029966).vian("'..player.Name..'")'},
+            {"Immortality Lord [R6]", 'require(6088717643)("'..player.Name..'")'},
+            {"Cooldown Nuke", 'require(4867426485):SD2("'..player.Name..'")'},
+            {"Dark Dex", 'require(3010581956):Fireplace("'..player.Name..'")'},
+            {"Crab Rave [R6]", 'require(6085762856).BINGBONG("'..player.Name..'")'},
+            {"Aureus V1", 'require(6036737823).CrackedByIncreaseron("'..player.Name..'")'},
+            {"South Park Troll [R6]", 'require(6062281254).load("'..player.Name..'")'},
+            {"Eliza Hub [R6]", 'require(5543125369).eliza("'..player.Name..'")'},
+            {"Retro Hub [R6]", 'require(5963380437).publicbuild("'..player.Name..'", "Retro")'},
+            {"Anonymous UTG", 'require(5126648745).load("'..player.Name..'")'},
+            {"Under UTG", 'require(4614455084).Under("'..player.Name..'")'},
+            {"UTG Edit", 'require(3497222070).load("'..player.Name..'")'},
+            {"Sonic Hub", 'require(5352721272):Fire("'..player.Name..'")'},
+            {"Glitch Hub Premium", 'require(5487274946).GLITCHED("'..player.Name..'")'},
+            {"Fire Hub", 'require(5098133040):FirePire("'..player.Name..'")'},
+            {"Avry Hub", 'require(5580599015).load("'..player.Name..'")'},
+            {"Lightning Cannon [R6]", 'require(5705720748).Lightning(string.reverse("'..player.Name..'"))'},
+            {"Spaghetti Hub", 'require(5121570975).SpaghettiHub("'..player.Name..'")'},
+            {"Hexine Gui", 'require(5419240318).PraiseSkidGod("'..player.Name..'")'},
+            {"SubHub", 'require(5356256564).SubscribeYouSkid("'..player.Name..'")'},
+            {"Best Hub", 'require(4634558715)("'..player.Name..'")'},
+            {"Xio's Hub", 'require(4831353616).xh("'..player.Name..'")'},
+            {"Ants Hub V5", 'require(5128274968).GetAntsUtgV5("'..player.Name..'")'},
+            {"Ethereal Hub", 'require(5845339294).EH("'..player.Name..'")'},
+            {"Epic Stand [R6]", 'require(5098731275).eliza("'..player.Name..'")'},
+            {"Hoarder Gui", 'require(5028947792).Lmao("'..player.Name..'")'},
+            {"D3s SS", 'require(5868025435).load("'..player.Name..'")'},
+            {"Project Scripted Gui", 'require(5160216694).Ass("'..player.Name..'")'},
+        }
+        for _, r in ipairs(requires) do
+            addContentButton(r[1], function()
+                copy(r[2])
+                notify("Copied require code for: " .. r[1])
+            end)
+        end
+
+    elseif name == "Skybox" then
+        local skyboxes = {
+            {"Skeleton Skybox", "0n5faAr6"},
+            {"Galaxy Skybox", "Ut7i8nV9"},
+            {"tubers93 Skybox", "FJS6rQbY"},
+            {"Human Face Skybox", "hfr0UHEf"},
+            {"Mario Exe Skybox", "tHbWFRnA"},
+            {"Shedletsky Skybox", "4KE5iWFt"},
+            {"Abgerny Bearrito Skybox", "UDfQaFvE"},
+            {"k00pkidd Skybox", "mFeFPL0n"},
+            {"Axom Hack X Skybox", "Z7nhjL1X"},
+            {"team Teterin1901 Skybox", "2ABvzTxj"},
+        }
+        for _, s in ipairs(skyboxes) do
+            addContentButton(s[1], function()
+                pcall(function()
+                    loadstring(game:HttpGet("https://pastebin.com/raw/" .. s[2]))()
+                end)
+            end)
+        end
+
+    elseif name == "Decals" then
+        local decals = {
+            {"Glitch Face", "707922981"},
+            {"Tubers93 Logo", "11127174715"},
+            {"Red Eyes", "49488484"},
+        }
+        for _, d in ipairs(decals) do
+            addContentButton(d[1], function()
+                local decal = Instance.new("Decal")
+                decal.Texture = "rbxassetid://" .. d[2]
+                if player.Character and player.Character:FindFirstChild("Head") then
+                    local face = player.Character.Head:FindFirstChild("face")
+                    if face then face:Destroy() end
+                    decal.Parent = player.Character.Head
+                else
+                    decal.Parent = workspace
+                end
+                notify("Applied Decal: " .. d[1])
+            end)
+        end
+
+    elseif name == "Podcast" then
+        local lines = {
+            "Dear User, We tried to Obfuscate our script.",
+            "Since skids are copying this content.",
+            "Anti-Skid Protection Activated.",
+            "#LuaLandSafety",
+            "#LuaLandGuidelines",
+            "#LuaLandPodcast",
+            "#LuaLandPolicy's",
+            "#LuaLandAnti-SkidProtect",
+            "#Anti-Infect",
+        }
+        for _, line in ipairs(lines) do
+            addLabel(line)
+        end
+    end
+end
+
+-- Create Sidebar Buttons
+local pages = {"Home", "Scripts", "Admin Scripts", "Require Scripts", "Skybox", "Decals", "Podcast"}
+for i, pageName in ipairs(pages) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, 0, 0, 30)
+    btn.Position = UDim2.new(0, 0, 0, (i - 1) * 30)
+    btn.Text = pageName
+    btn.TextColor3 = Color3.fromRGB(0, 255, 0)
+    btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    btn.Font = Enum.Font.Code
+    btn.TextSize = 16
+    btn.Parent = sidebar
+    btn.MouseButton1Click:Connect(function()
+        showPage(pageName)
+    end)
+end
+
+-- Show Home on Start
+showPage("Home")
