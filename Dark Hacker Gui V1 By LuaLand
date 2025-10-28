@@ -24,20 +24,6 @@ title.Font = Enum.Font.Code
 title.TextSize = 20
 title.Parent = main
 
--- Close Button
-local closeBtn = Instance.new("TextButton")
-closeBtn.Size = UDim2.new(0, 30, 0, 30)
-closeBtn.Position = UDim2.new(1, -35, 0, 5)
-closeBtn.Text = "X"
-closeBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
-closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-closeBtn.Font = Enum.Font.Code
-closeBtn.TextSize = 18
-closeBtn.Parent = main
-closeBtn.MouseButton1Click:Connect(function()
-    gui:Destroy()
-end)
-
 -- Sidebar
 local sidebar = Instance.new("Frame")
 sidebar.Size = UDim2.new(0, 150, 1, -40)
@@ -316,7 +302,7 @@ local function showPage(name)
         for _, r in ipairs(requires) do
             addContentButton(r[1], function()
                 copy(r[2])
-                notify("Copied require code for: " .. r[1])
+                notify("YOU COPIED REQUIRE SCRIPT FOR: " .. r[1])
             end)
         end
 
@@ -358,7 +344,7 @@ local function showPage(name)
                 else
                     decal.Parent = workspace
                 end
-                notify("Applied Decal: " .. d[1])
+                notify("DECAL SUCCESSFULLY APPLIED: " .. d[1])
             end)
         end
 
