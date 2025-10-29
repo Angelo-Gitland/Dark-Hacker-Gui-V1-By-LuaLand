@@ -42,7 +42,9 @@ local layout = Instance.new("UIListLayout")
 layout.Padding = UDim.new(0, 5)
 layout.Parent = content
 
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+-- Keep a single connection for the layout size change
+local layoutConn
+layoutConn = layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
 end)
 
@@ -89,20 +91,25 @@ local function addLabel(text)
 end
 
 local function showPage(name)
+    -- Disconnect old layout listener (prevents duplicate connections)
+    if layoutConn then layoutConn:Disconnect() end
+
     content:ClearAllChildren()
-    layout.Parent = nil
+
+    -- Re-create layout
     layout = Instance.new("UIListLayout")
     layout.Padding = UDim.new(0, 5)
     layout.Parent = content
 
-    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    -- Re-connect size listener
+    layoutConn = layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
         content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
     end)
 
     if name == "Home" then
         addLabel("NAME: " .. player.Name)
         addLabel("ACCOUNT AGE: " .. player.AccountAge .. " days")
-        addLabel("FPS: " .. math.floor(1 / wait()) .. " (Approx)")
+        addLabel("FPS: " .. math.floor(1 / (tick() - tick())) .. " (Approx)") -- safer FPS calc
         addLabel("PLAYERS: " .. #game.Players:GetPlayers())
         addContentButton("Join Lua Land Hub", function()
             copy("https://discord.gg/mQYtHAJErm")
@@ -343,16 +350,21 @@ local function showPage(name)
             end)
         end
 
-elseif name == "Podcast" then
-    local lines = {
-        "We Are Anonymous. We Are Legion We Do Not Forgive. We Do Not Forget. Expect Us",
-        "Every click you make, I see. Every move you take, I trace"
-    }
-    for _, line in ipairs(lines) do
-        addLabel(line)
+    elseif name == "Podcast" then
+        local lines = {
+            "Script MADE BY: LLH LUA LAND",
+            "HACKER TEXT MADE BY: LLH LUA LAND",
+            "MUSIC IDEA BY: HARKINIAN5",
+            "TESTER: ERIC_3337",
+            "CONVERTED SCRIPTS BY: ROB_SB4"
+        }
+        for _, line in ipairs(lines) do
+            addLabel(line)
+        end
     end
 end
 
+-- Sidebar buttons
 local pages = {"Home", "Scripts", "Admin Scripts", "Require Scripts", "Skybox", "Decals", "Podcast"}
 for i, pageName in ipairs(pages) do
     local btn = Instance.new("TextButton")
