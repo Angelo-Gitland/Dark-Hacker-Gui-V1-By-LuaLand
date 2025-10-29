@@ -167,6 +167,7 @@ local function showPage(name)
             {"Chat Spam", "https://pastebin.com/raw/8Htx56Ab"},
             {"Wally West", "https://raw.githubusercontent.com/XQZ-official/XQZscripts/refs/heads/main/WallyWest.txt"},
             {"Keyboard", "https://rawscripts.net/raw/Universal-Script-Mobile-keyboard-6975"},
+            {"Old Delta Executor Ui", "https://rawscripts.net/raw/Universal-Script-Old-Delta-Executor-Ui-30987"},
         }
         for _, s in ipairs(scripts) do
             addContentButton(s[1], function()
