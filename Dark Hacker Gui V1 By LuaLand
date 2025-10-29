@@ -99,17 +99,22 @@ local function showPage(name)
         content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
     end)
 
-    if name == "Home" then
-        addLabel("NAME: " .. player.Name)
-        addLabel("ACCOUNT AGE: " .. player.AccountAge .. " days")
-        addLabel("FPS: " .. math.floor(1 / wait()) .. " (Approx)")
-        addLabel("PLAYERS: " .. #game.Players:GetPlayers())
-        addContentButton("Join Lua Land Hub", function()
-            copy("https://discord.gg/mQYtHAJErm")
-        end)
-        addContentButton("Join Eric_3337", function()
-            copy("https://discord.gg/tkrKd7UBJG")
-        end)
+    elseif name == "HOME" then
+    addLabel("NAME: " .. player.Name)
+    addLabel("ACCOUNT AGE: " .. player.AccountAge .. " days")
+    addLabel("FPS: " .. math.floor(1 / wait()) .. " (Approx)")
+    addLabel("PLAYERS: " .. #game.Players:GetPlayers())
+    addLabel("Gui By: LLH LUA LAND")
+    addLabel("INTRO BY: LLH LUA LAND")
+    addLabel("MUSIC IDEA BY: HARKINIAN5 (SPOOKY SKELETON)")
+    addLabel("TESTERS: ERIC_3337")
+    addContentButton("Join Lua Land Hub", function()
+        copy("https://discord.gg/lualandhub")
+    end)
+    addContentButton("Join Eric_3337", function()
+        copy("https://discord.gg/tkrKd7UBJG")
+    end)
+end
 
     elseif name == "Scripts" then
         local scripts = {
@@ -343,14 +348,13 @@ local function showPage(name)
             end)
         end
 
-    elseif name == "Podcast" then
-        local lines = {
-            "We Are Anonymous. We Are Legion We Do Not Forgive. We Do Not Forget. Expect Us"
-            "Every click you make, i see. every move you take, I trace"
-        }
-        for _, line in ipairs(lines) do
-            addLabel(line)
-        end
+elseif name == "Podcast" then
+    local lines = {
+        "We Are Anonymous. We Are Legion We Do Not Forgive. We Do Not Forget. Expect Us",
+        "Every click you make, I see. Every move you take, I trace"
+    }
+    for _, line in ipairs(lines) do
+        addLabel(line)
     end
 end
 
