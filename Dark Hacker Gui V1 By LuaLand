@@ -375,5 +375,4 @@ for i, pageName in ipairs(pages) do
     end)
 end
 
--- Start on Home Page
 showPage("Home")
