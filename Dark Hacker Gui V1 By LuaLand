@@ -42,12 +42,13 @@ local layout = Instance.new("UIListLayout")
 layout.Padding = UDim.new(0, 5)
 layout.Parent = content
 
--- Keep a single connection for the layout size change
+-- Keep connection for layout size
 local layoutConn
 layoutConn = layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
 end)
 
+-- Functions
 local function notify(text)
     pcall(function()
         game.StarterGui:SetCore("SendNotification", {
@@ -90,18 +91,16 @@ local function addLabel(text)
     lbl.Parent = content
 end
 
+-- Show Page Function
 local function showPage(name)
-    -- Disconnect old layout listener (prevents duplicate connections)
     if layoutConn then layoutConn:Disconnect() end
 
     content:ClearAllChildren()
 
-    -- Re-create layout
     layout = Instance.new("UIListLayout")
     layout.Padding = UDim.new(0, 5)
     layout.Parent = content
 
-    -- Re-connect size listener
     layoutConn = layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
         content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
     end)
@@ -109,7 +108,7 @@ local function showPage(name)
     if name == "Home" then
         addLabel("NAME: " .. player.Name)
         addLabel("ACCOUNT AGE: " .. player.AccountAge .. " days")
-        addLabel("FPS: " .. math.floor(1 / (tick() - tick())) .. " (Approx)") -- safer FPS calc
+        addLabel("FPS: ~60 (Approx)")
         addLabel("PLAYERS: " .. #game.Players:GetPlayers())
         addContentButton("Join Lua Land Hub", function()
             copy("https://discord.gg/mQYtHAJErm")
@@ -139,7 +138,8 @@ local function showPage(name)
             {"Trail", "https://raw.githubusercontent.com/Angelo-Gitland/Universal-Trail-Lua-Land/refs/heads/main/Universal%20Trail%20Lua%20land"},
             {"Survive Forsaken Killers", "https://pastebin.com/raw/ud8GUnvj"},
             {"Draw [BY LLH Lua Land]", "https://gist.githubusercontent.com/Angelo-Gitland/41392308e475849d10ddaed89de6cf82/raw/26307cee931f95d3477501399915aec2dc3dc6e7/Drawing%2520LandsUHJQ"},
-            {"Raining Taco", "https://gist.githubusercontent.com/Angelo-Gitland/32f75327c2a514eabf8bd3eb6d519f35/raw/c4a26f1acd089e316acb946ff7adf77888ab7104/It's%2520Raining%2520Taco!"},
+            -- RAINING TACO WITH MUSIC (NO STOP BUTTON)
+            {"Raining Taco [WITH MUSIC]", "https://gist.githubusercontent.com/Angelo-Gitland/32f75327c2a514eabf8bd3eb6d519f35/raw/c4a26f1acd089e316acb946ff7adf77888ab7104/It's%2520Raining%2520Taco!"},
             {"Hint Gui", "https://pastebin.com/raw/vmH6fz3e"},
             {"Omni God", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Omni%20God"},
             {"Sutart", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Sutart"},
@@ -176,13 +176,36 @@ local function showPage(name)
             {"Keyboard", "https://rawscripts.net/raw/Universal-Script-Mobile-keyboard-6975"},
             {"Old Delta Executor Ui", "https://rawscripts.net/raw/Universal-Script-Old-Delta-Executor-Ui-30987"},
         }
+
         for _, s in ipairs(scripts) do
-            addContentButton(s[1], function()
-                pcall(function()
-                    loadstring(game:HttpGet(s[2]))()
+            if s[1] == "Raining Taco [WITH MUSIC]" then
+                addContentButton(s[1], function()
+                    pcall(function()
+                        -- Run original Raining Taco script
+                        loadstring(game:HttpGet(s[2]))()
+                        
+                        -- Play "It's Raining Tacos" music (ID: 881468729)
+                        local sound = Instance.new("Sound")
+                        sound.SoundId = "rbxassetid://881468729"
+                        sound.Volume = 1
+                        sound.Looped = true
+                        sound.Parent = game:GetService("SoundService")
+                        sound:Play()
+                        
+                        notify("Raining Taco + MUSIC PLAYING!")
+                    end)
                 end)
-            end)
+            else
+                addContentButton(s[1], function()
+                    pcall(function()
+                        loadstring(game:HttpGet(s[2]))()
+                    end)
+                    notify("SCRIPT LOADED: " .. s[1])
+                end)
+            end
         end
+    end
+end
 
     elseif name == "Admin Scripts" then
         local scripts = {
@@ -218,12 +241,13 @@ local function showPage(name)
                 pcall(function()
                     loadstring(game:HttpGet(s[2]))()
                 end)
+                notify("ADMIN LOADED: " .. s[1])
             end)
         end
 
     elseif name == "Require Scripts" then
         local requires = {
-            {"📌 R6 📌", 'require(3436957371):r6("'..player.Name..'")'},
+            {"R6", 'require(3436957371):r6("'..player.Name..'")'},
             {"Th Gui", 'require(135807038977807)("'..player.Name..'")'},
             {"RedLights Exe", 'require(6097532439):redlightsdontleak("'..player.Name..'")'},
             {"Spring Hub", 'require(4829576129).SpringHub("'..player.Name..'")'},
@@ -304,7 +328,7 @@ local function showPage(name)
         for _, r in ipairs(requires) do
             addContentButton(r[1], function()
                 copy(r[2])
-                notify("YOU COPIED REQUIRE SCRIPT FOR: " .. r[1])
+                notify("COPIED: " .. r[1])
             end)
         end
 
@@ -322,59 +346,4 @@ local function showPage(name)
             {"team Teterin1901 Skybox", "2ABvzTxj"},
         }
         for _, s in ipairs(skyboxes) do
-            addContentButton(s[1], function()
-                pcall(function()
-                    loadstring(game:HttpGet("https://pastebin.com/raw/" .. s[2]))()
-                end)
-            end)
-        end
-
-    elseif name == "Decals" then
-        local decals = {
-            {"k00pkidd Decal", "https://pastebin.com/raw/86sciNmu"},
-            {"tubers93 Decal", "https://pastebin.com/raw/dvZiUaKG"},
-            {"c00lkidd Decal", "https://pastebin.com/raw/xzj0r1V1"},
-            {"g00byd0lan Decal", "https://pastebin.com/raw/NQatNpx8"},
-        }
-        for _, d in ipairs(decals) do
-            addContentButton(d[1], function()
-                pcall(function()
-                    loadstring(game:HttpGet(d[2]))()
-                end)
-                notify("DECAL SCRIPT EXECUTED: " .. d[1])
-            end)
-        end
-    end
-
-    elseif name == "Podcast" then
-        local lines = {
-            "Script MADE BY: LLH LUA LAND",
-            "HACKER TEXT MADE BY: LLH LUA LAND",
-            "MUSIC IDEA BY: HARKINIAN5",
-            "TESTER: ERIC_3337",
-            "CONVERTED SCRIPTS BY: ROB_SB4"
-        }
-        for _, line in ipairs(lines) do
-            addLabel(line)
-        end
-    end
-end
-
--- Sidebar buttons
-local pages = {"Home", "Scripts", "Admin Scripts", "Require Scripts", "Skybox", "Decals", "Podcast"}
-for i, pageName in ipairs(pages) do
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, 30)
-    btn.Position = UDim2.new(0, 0, 0, (i - 1) * 30)
-    btn.Text = pageName
-    btn.TextColor3 = Color3.fromRGB(0, 255, 0)
-    btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    btn.Font = Enum.Font.Code
-    btn.TextSize = 16
-    btn.Parent = sidebar
-    btn.MouseButton1Click:Connect(function()
-        showPage(pageName)
-    end)
-end
-
-showPage("Home")
+  
