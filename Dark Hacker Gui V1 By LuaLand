@@ -299,6 +299,10 @@ local function showPage(name)
             {"Hoarder Gui", 'require(5028947792).Lmao("'..player.Name..'")'},
             {"D3s SS", 'require(5868025435).load("'..player.Name..'")'},
             {"Project Scripted Gui", 'require(5160216694).Ass("'..player.Name..'")'},
+            {"HappySS", 'require(78790302691160):Hload("'..player.Name..'")'},
+            {"Eggman Gui V2", 'require(93542145255151):LUX("'..player.Name..'")'},
+            {"Protokidd Gui", 'require(95513395921670).protokidd("'..player.Name..'")'},
+            {"Kurapika Gui V1", 'require(103091801389406).kurapikav1("'..player.Name..'")'},
         }
         for _, r in ipairs(requires) do
             addContentButton(r[1], function()
